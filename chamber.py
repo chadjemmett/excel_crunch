@@ -1,25 +1,41 @@
-# from bs4 import BeautifulSoup
+# from bs4 import BeautifulSun k])
+
 from openpyxl import load_workbook
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module="openpyxl")
 import csv
 
-wb = load_workbook(filename='chamber_2.xlsx')
+wb = load_workbook(filename='chamber_3.xlsx')
 
-ws = wb['Sheet1']
+ws = wb['Sheet1 (1)']
 # with open('biz.txt', "r") as f:
 #     for i in f.readlines():
 #         print(i.strip())
 #     f.close()
+# This code created a useable list with only a few things to fix manually
+########################################################
+data = []
+for i in range(1, ws.max_row):
+    if ws[i][0].font.b and ws[i][0].font.sz == 10:
+        temp_data = []
+        for k in range(i, i+7):
+            for d in ws[k]:
+                if d.value == None:
+                    temp_data.append("None")
+                else:
+                    temp_data.append(d.value)
+        # print("\n")
+        data.append(temp_data)
 
 
-for i in ws:
-    if i[0].font.sz:
-        if int(i[0].font.sz) == 10 and i[0].font.b:
-            print(i[0].font.sz, i[0].value)
+with open("big_chamber_list.csv", "a") as f:
+    writer = csv.writer(f, delimiter=",")
+    for i in data:
+        writer.writerow(i)
 
-names = []
-
+########################################################
+# this grabs stuff with a placehoder of None for things that are missing
+###########################################
 # for i in range(1, 400):
 #     if ws[i][0].font.b and ws[i][0].font.sz == 10:
 #         for k in range(i, i+7):
@@ -55,6 +71,7 @@ names = []
     
 # biz.close()
 
+################################################
         
 # print(names)
 
