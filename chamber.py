@@ -16,6 +16,9 @@ ws = wb['Sheet1 (1)']
 ########################################################
 data = []
 for i in range(1, ws.max_row):
+    if ws[i][0].font.b and ws[i][0].font.sz == 14:
+        cur_category = ws[i][0].value
+    
     if ws[i][0].font.b and ws[i][0].font.sz == 10:
         temp_data = []
         for k in range(i, i+7):
@@ -25,6 +28,7 @@ for i in range(1, ws.max_row):
                 else:
                     temp_data.append(d.value)
         # print("\n")
+        temp_data.append(cur_category)
         data.append(temp_data)
 
 
@@ -32,7 +36,7 @@ with open("big_chamber_list.csv", "a") as f:
     writer = csv.writer(f, delimiter=",")
     for i in data:
         writer.writerow(i)
-
+    f.close()
 ########################################################
 # this grabs stuff with a placehoder of None for things that are missing
 ###########################################
